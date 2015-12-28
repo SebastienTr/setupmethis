@@ -142,7 +142,7 @@ cp /root/.bashrc /home/$username/.bashrc
 
 printmethis "Config ssh ..."
 sed -i -e "s/Port 22/Port $sshport/g" /etc/ssh/sshd_config
-if [ "$rootlogin" == 0 ]; then
+if [ "$sshrootlogin" == 0 ]; then
 	sed -i -e "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
 	echo "AllowUsers $username"
 	echo "AllowUsers $username" >> /etc/ssh/sshd_config
