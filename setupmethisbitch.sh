@@ -28,7 +28,7 @@ elif [ "$1" == "--input" ]; then
 	while [ "$inputIsOk" = false ]; do
 		usernameIsOk=false
 		while [ "$usernameIsOk" = false ]; do
-			echo -en "Enter a username : "
+			echo -en "Enter a username (for a basic sudo user) : "
 			read username
 			size=${#username} 
 			if [ "$size" -lt "3" ]; then
@@ -51,6 +51,38 @@ elif [ "$1" == "--input" ]; then
 				passwordIsOk=true
 			fi
 		done
+
+		echo
+
+		usernameDNSIsOk=false
+		while [ "$usernameDNSIsOk" = false ]; do
+			echo -en "Enter a username (for the dns) : "
+			read usernameDNS
+			size=${#usernameDNS} 
+			if [ "$size" -lt "3" ]; then
+				echo "username too short"
+			elif [ "$size" -gt 29 ]; then
+				echo
+				echo "username too long"
+			else
+				usernameDNSIsOk=true
+			fi
+		done
+		passwordDNSIsOk=false
+		while [ "$passwordDNSIsOk" = false ]; do
+			echo -en "Enter a password (for the dns) : "
+			read -s passwordDNS
+			size=${#passwordDNS}
+			if [ "$size" -lt "6" ]; then
+				echo "password is too short"
+			else
+				passwordDNSIsOk=true
+			fi
+		done
+
+
+
+
 		sshrootloginIsOk=false
 		echo
 		while [ "$sshrootloginIsOk" = false ]; do
@@ -92,10 +124,12 @@ elif [ "$1" == "--input" ]; then
 
 		echo 
 		echo "username          : $username"
-		echo "password          : *SECRET*"
+		echo "password          : $password"
+		echo "usernameDNS       : $usernameDNS"
+		echo "passwordDNS       : $passwordDNS"
 		echo "sshport           : $sshport"
 		echo "sshrootlogin      : $sshrootlogin"
-		echo "mysqlrootpassword : *SECRET*"
+		echo "mysqlrootpassword : $mysqlrootpassword"
 		echo
 		echo -en "This informations is correct [y/n] ? "
 		read iscorrect
@@ -166,6 +200,9 @@ echo
 #####
 echo $password >> /etc/passwd.txt
 echo $password >> /etc/passwd.txt
+
+echo $passwordDNS >> /etc/passwdDNS.txt
+echo $passwordDNS >> /etc/passwdDNS.txt
 
 echo $mysqlrootpassword > /etc/z_mysql_config.txt
 echo "n" >> /etc/z_mysql_config.txt
@@ -259,10 +296,35 @@ fi
 
 printmethis "Config DNS ..."
 $apt install bind9-host bind9 dnsutils bind9utils
+/etc/init.d/bind9 stop
+sed -i -e "s/OPTIONS=\"-u bind\"//g" /etc/default/bind9
+echo 'OPTIONS="-u bind -t /var/lib/named"' >> /etc/default/bind9
+
+# La suite des commandes permettra de mettre en place cet environnement et ses droits dans /var/lib/named/
+mkdir -p /var/lib/named/etc
+mkdir /var/lib/named/dev
+mkdir -p /var/lib/named/var/cache/bind
+mkdir -p /var/lib/named/var/run/bind/run
+mv /etc/bind /var/lib/named/etc
+ln -s /var/lib/named/etc/bind /etc/bind
+mknod /var/lib/named/dev/null c 1 3
+mknod /var/lib/named/dev/random c 1 8
+chmod 666 /var/lib/named/dev/null /var/lib/named/dev/random
+chown -R bind:bind /var/lib/named/var/*
+chown -R bind:bind /var/lib/named/etc/bind
+
+adduser --uid 5400 --ingroup $usernameDNS $usernameDNS --shell /bin/bash --home /home/$usernameDNS --gecos "" < /etc/passwdDNS.txt
+
+cp ./named.conf.options /etc/bind/named.conf.options
+cp ./named.conf.local /etc/bind/named.conf.local
+cp ./db.tossabox.com /etc/bind/db.tossabox.com
+
+/etc/init.d/bind9 restart
 
 printmethis "Delete passwords files ..."
 rm /etc/z_mysql_config.txt
 rm /etc/passwd.txt
+rm /etc/passwdDNS.txt
 
 end_time=`date +%s`
 diff_time=`expr $end_time - $start_time`
