@@ -136,7 +136,7 @@ echo -e "\033[0;41m \033[5m                  |_|                                
 echo
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
-echo -e "\033[1;34m         欢迎, Welcome, Bienvenue, добро пожаловать, សូមស្វាគមន៍\033[0m"
+echo -e "\033[1;34m         欢迎, Welcome, Bienvenue, добро пожаловать, សូមស្វាគមន៍     \033[0m"
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
 echo
@@ -207,7 +207,6 @@ $apt upgrade
 $apt dist-upgrade
 $apt install
 
-
 printmethis "Installation mysql ..."
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password $mysqlrootpassword'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $mysqlrootpassword'
@@ -229,7 +228,8 @@ service php5-fpm restart
 
 
 printmethis "Installation of useful softwares and tools ..."
-$apt install sudo nano zip unzip gcc libc6-dev linux-kernel-headers wget bzip2 make build-essential checkinstall git curl telnet
+$apt install sudo nano zip unzip gcc libc6-dev linux-kernel-headers wget bzip2 make build-essential checkinstall git git-core curl telnet aptitude
+$apt install emacs byobu htop
 
 
 printmethis "Installation python3 ..."
