@@ -1,6 +1,15 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
+whoami="$(whoami)"
+
+if [ "$whoami" == "root" ]; then
+	echo "You are root, all is right ;)"
+else
+	echo "Please run this script as sudo ;)"
+	exit 1
+fi
+
 start_time=`date +%s`
 
 if [ "$1" == "--file" ]; then
@@ -315,9 +324,9 @@ chown -R bind:bind /var/lib/named/etc/bind
 
 adduser --uid 5400 --ingroup $usernameDNS $usernameDNS --shell /bin/bash --home /home/$usernameDNS --gecos "" < /etc/passwdDNS.txt
 
-cp ./named.conf.options /etc/bind/named.conf.options
-cp ./named.conf.local /etc/bind/named.conf.local
-cp ./db.tossabox.com /etc/bind/db.tossabox.com
+cp ./preconf/named.conf.options /etc/bind/named.conf.options
+cp ./preconf/named.conf.local /etc/bind/named.conf.local
+cp ./preconf/db.tossabox.com /etc/bind/db.tossabox.com
 
 /etc/init.d/bind9 restart
 
@@ -347,5 +356,7 @@ echo ""
 
 echo "you can now reboot and connect with the followings credientials, have fun :)"
 echo ""
+
+reboot
 
 exit 0
