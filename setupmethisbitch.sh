@@ -179,7 +179,7 @@ echo -e "\033[0;41m \033[5m                  |_|                                
 echo
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
-echo -e "\033[1;34m         欢迎, Welcome, Bienvenue, добро пожаловать, សូមស្វាគមន៍     \033[0m"
+echo -e "\033[1;34m  欢迎, Welcome, Bienvenue, добро пожаловать, សូមស្វាគមន៍, स्वागत  \033[0m"
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
 echo -e "\033[1;34m--------------------------------------------------------------------\033[0m"
 echo
@@ -274,8 +274,8 @@ service php5-fpm restart
 
 
 printmethis "Installation of useful softwares and tools ..."
-$apt install sudo nano zip unzip gcc libc6-dev linux-kernel-headers wget bzip2 make build-essential checkinstall git git-core curl telnet aptitude
-$apt install emacs byobu htop
+$apt install sudo nano zip unzip gcc libc6-dev linux-kernel-headers wget make build-essential
+$apt install emacs byobu htop git git-core curl telnet aptitude locate checkinstall bzip2
 
 
 printmethis "Installation python3 ..."
