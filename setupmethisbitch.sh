@@ -326,7 +326,7 @@ adduser --uid 5400 --ingroup $usernameDNS $usernameDNS --shell /bin/bash --home 
 
 cp ./preconf/named.conf.options /etc/bind/named.conf.options
 cp ./preconf/named.conf.local /etc/bind/named.conf.local
-cp ./preconf/db.tossabox.com /etc/bind/db.tossabox.com
+cp ./preconf/db.sebastientreille.fr /etc/bind/db.sebastientreille.fr
 
 /etc/init.d/bind9 restart
 

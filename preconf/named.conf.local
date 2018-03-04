@@ -6,10 +6,10 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
-zone "tossabox.com" {
+zone "sebastientreille.fr" {
      type master;
-     file "/etc/bind/db.tossabox.com";
-     allow-transfer { 46.105.207.200; };
-     allow-query { any; };
-     notify yes;
+     file "/etc/bind/db.sebastientreille.fr";
 };
+//     allow-transfer { 163.172.62.11; };
+//     allow-query { any; };
+//     notify yes;

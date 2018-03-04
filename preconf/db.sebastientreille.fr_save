@@ -1,0 +1,29 @@
+; sebastientreille.fr
+$TTL    3600
+@   IN  SOA sd-106301.dedibox.fr. root.sebastientreille.fr. (
+            2017082601 ; SERIAL
+            3600; REFRESH
+            15M; RETRY
+            1W; EXPIRE
+            600 ) ; Negative Cache TTL
+;
+; NAMESERVERS
+;
+sebastientreille.fr. IN       NS       sd-106301.dedibox.fr.
+sebastientreille.fr. IN       NS       nssec.online.net.
+;
+; Nodes in domain
+;
+www       IN A         163.172.62.11
+mail      IN A         163.172.62.11
+ns1       IN A         163.172.62.11
+smtp      IN A         163.172.62.11
+pop       IN A         163.172.62.11
+ftp       IN A         163.172.62.11
+imap      IN A         163.172.62.11
+sebastientreille.fr.   IN  A   163.172.62.11
+sebastientreille.fr.   IN  MX  10 mail.sebastientreille.fr.
+;
+; subdomains
+;
+*.sebastientreille.fr. IN A 163.172.62.11

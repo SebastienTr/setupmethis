@@ -53,3 +53,4 @@ iptables -t filter -A INPUT -p tcp --dport 8443 -j ACCEPT
 
 # Monit
 iptables -t filter -A INPUT -p tcp --dport 1337 -j ACCEPT
+iptables -t filter -A INPUT -p tcp --dport 3000 -j ACCEPT
